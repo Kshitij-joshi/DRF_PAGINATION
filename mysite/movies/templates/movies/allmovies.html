@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies List</title>
+    <style>
+        /* General body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main container for the movie list */
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* Header style */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Container for the list of movies */
+        .movie-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Each movie item style */
+        .movie-item {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        /* Hover effect for each movie item */
+        .movie-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Animation to make movie items fade in */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Stagger the animation for each item */
+        .movie-item:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .movie-item:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .movie-item:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .movie-item:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        /* Pagination styling */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Disabled pagination button */
+        .disabled {
+            background-color: #e0e0e0;
+            color: #a0a0a0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="" method="GET">
+            <input type = "search" name = "movie_name">
+            <button type = "submit">Search</button>
+        </form>
+        <h1>Movies List</h1>
+        <div class="movie-list">
+            {% for movie in movies_object %}
+                <div class="movie-item">
+                    {{ movie.name }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            {% if movies_object.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="?page={{ movies_object.previous_page_number }}">Previous</a>
+            {% else %}
+                <a href="#" class="disabled">First</a>
+                <a href="#" class="disabled">Previous</a>
+            {% endif %}
+
+            <span>Page: {{ movies_object.number }} of {{ movies_object.paginator.num_pages }}</span>
+
+            {% if movies_object.has_next %}
+                <a href="?page={{ movies_object.next_page_number }}">Next</a>
+                <a href="?page={{ movies_object.paginator.num_pages }}">Last</a>
+            {% else %}
+                <a href="#" class="disabled">Next</a>
+                <a href="#" class="disabled">Last</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
