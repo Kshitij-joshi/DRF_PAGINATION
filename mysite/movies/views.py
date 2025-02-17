@@ -24,14 +24,17 @@ class ComedyViewSet(viewsets.ModelViewSet):
 
 def movie_list(request):
     movies_object = Movies.objects.all()
+    
+    movie_name = request.GET.get("movie_name")
+
+    
+
+    if movie_name != "" and movie_name is not None:
+         movies_object = Movies.objects.filter(name__icontains=movie_name)
+
     paginator = Paginator(movies_object,2)
     page = request.GET.get('page')
     movies_object = paginator.get_page(page)
 
-
-    movie_name = request.GET.get("movie_name")
-
-    if movie_name != "" and movie_name is not None:
-         movies_object = Movies.objects.filter(name=movie_name)
+    
     return render(request,'movies/allmovies.html',{"movies_object":movies_object})
-

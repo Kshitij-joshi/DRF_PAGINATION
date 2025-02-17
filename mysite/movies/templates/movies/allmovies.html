@@ -121,10 +121,16 @@
     </style>
 </head>
 <body>
+    
     <div class="container">
+    
         <form action="" method="GET">
+            
+            <button class="pagination"><a href="{% url 'movie_list' %}">HOME</a></button>
             <input type = "search" name = "movie_name">
+            
             <button type = "submit">Search</button>
+            
         </form>
         <h1>Movies List</h1>
         <div class="movie-list">
@@ -134,7 +140,7 @@
                 </div>
             {% endfor %}
         </div>
-
+        
         <div class="pagination">
             {% if movies_object.has_previous %}
                 <a href="?page=1">First</a>
